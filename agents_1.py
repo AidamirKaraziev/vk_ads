@@ -17,10 +17,12 @@ def get_agencies_client():
     if response.status_code == 200:
         # Если запрос успешен, выводим полученные данные
         print("Ответ от сервера:", response.json())
+        return response.json()
     else:
         # Если произошла ошибка, выводим код ошибки и текст ответа
         print("Ошибка:", response.status_code)
         print("Ответ:", response.text)
+        return response.text
 
 
 def ad_plans():
@@ -38,10 +40,12 @@ def ad_plans():
     if response.status_code == 200:
         # Если запрос успешен, выводим полученные данные
         print("Ответ от сервера:", response.json())
+        return response.json()
     else:
         # Если произошла ошибка, выводим код ошибки и текст ответа
         print("Ошибка:", response.status_code)
         print("Ответ:", response.text)
+        return response.text
 
 
 def create_ad_plan():
@@ -76,16 +80,13 @@ def create_ad_plan():
     if response.status_code == 200:
         # Если запрос успешен, выводим полученные данные
         print("Кампания успешно создана:", response.json())
+        return response.json()
     else:
         # Если произошла ошибка, выводим код ошибки и текст ответа
         print("Ошибка:", response.status_code)
         print("Ответ:", response.text)
+        return response.text
 
 
 if __name__ == "__main__":
     pass
-
-    # get_agencies_client()
-    # ad_plans()
-    # create_ad_plan()
-

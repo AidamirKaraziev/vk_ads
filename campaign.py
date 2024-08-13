@@ -30,9 +30,9 @@ def get_ad_accounts(access_token):
     headers = {"Authorization": f"Bearer {access_token}"}
     response = requests.get(url, headers=headers)
     if response.status_code == 200:
-        # print(response.json())
         return response.json()
     else:
+        print(response.json())
         raise HTTPException(
             status_code=response.status_code,
             detail=response.text
@@ -54,15 +54,11 @@ def create_ad_campaign(
     payload = {
         "client_id": client_id,
         "name": campaign_data["name"],
-        "status": "active",
-        # Возможно, придется поменять на "paused" или другой статус
-        "date_start": campaign_data["date_start"],
-        # Формат даты: "YYYY-MM-DD HH:MM:SS"
-        "date_end": campaign_data["date_end"],
-        # Формат даты: "YYYY-MM-DD HH:MM:SS"
+        "status": "active",  # Возможно, придется поменять на "paused" или другой статус
+        "date_start": campaign_data["date_start"],  # Формат даты: "YYYY-MM-DD HH:MM:SS"
+        "date_end": campaign_data["date_end"],  # Формат даты: "YYYY-MM-DD HH:MM:SS"
         "autobidding_mode": "max_goals",  # Автоматическое управление ставками
-        "budget_limit_day": campaign_data["budget_limit_day"],
-        # Дневной лимит бюджета
+        "budget_limit_day": campaign_data["budget_limit_day"],  # Дневной лимит бюджета
         "budget_limit": campaign_data["budget_limit"],  # Общий лимит бюджета
         "objective": "playersengagement",  # Цель кампании
         "ad_groups": []  # В этой версии пока оставляем пустым
@@ -71,11 +67,15 @@ def create_ad_campaign(
     if response.status_code == 200:
         return response.json()
     else:
-        # print(response)
-
+        print(response.json())
+        error_data = {
+            "code": response.json()['error']["code"],
+            "message": response.json()['error']["message"],
+            "required_permission": response.json()['error']["required_permission"],
+        }
         raise HTTPException(
             status_code=response.status_code,
-            detail=response.text
+            detail=error_data
         )
 
 

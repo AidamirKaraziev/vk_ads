@@ -1,4 +1,5 @@
 import requests
+from fastapi import HTTPException
 
 from settings import (
     CLIENT_ID,
@@ -13,13 +14,18 @@ def get_access_token():
     # URL для получения токена
     url = "https://ads.vk.com/api/v2/oauth2/token.json"
 
+    # дефолтный токен агентства
+    payload = {
+        "grant_type": "agency_client_credentials",
+        "client_id": CLIENT_ID,
+        "client_secret": CLIENT_SECRET,
+    }
     payload = {
         "grant_type": "client_credentials",
         "client_id": CLIENT_ID,
         "client_secret": CLIENT_SECRET,
-        # "scope": "ads,view_clients,create_ads"  # Запрашиваемые права
+        # "scope": "ads create_ads"  # Укажите необходимые права
     }
-
     # Параметры запроса
     # payload = {
     #     "grant_type": "client_credentials",
@@ -34,7 +40,8 @@ def get_access_token():
     #     "client_id": CLIENT_ID,
     #     "client_secret": CLIENT_SECRET,
     #     "agency_client_id": AGENCY_CLIENT_ID,
-    #     "scope": ["ads", "read_ads", "create_ads", "read_payments"]
+    #     # "scope": "{view_clients},",
+    #     # "scope": ""
     # }
 
     # Выполняем POST-запрос
@@ -92,6 +99,29 @@ def delete_oauth2_token(
         return f"Ошибка: {response.status_code}\nОтвет: {response.text}"
 
 
+async def default_auth():
+    url = "https://ads.vk.com/api/v2/oauth2/token.json"
+    headers = {
+        "Content-Type": "application/x-www-form-urlencoded"
+    }
+    data = {
+        "grant_type": "client_credentials",
+        "client_id": CLIENT_ID,
+        "client_secret": CLIENT_SECRET,
+        # "scope": "ads read_ads create_ads"
+    }
+
+    response = requests.post(url, headers=headers, data=data)
+
+    if response.status_code == 200:
+        return response.json()
+
+    else:
+        raise HTTPException(
+            status_code=response.status_code,
+            detail=response.text
+        )
+
+
 if __name__ == '__main__':
     pass
-    # get_access_token()

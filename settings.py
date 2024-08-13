@@ -11,3 +11,7 @@ ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
 AGENCY_CLIENT_NAME = os.getenv("AGENCY_CLIENT_NAME")
 AGENCY_CLIENT_ID = os.getenv("AGENCY_CLIENT_ID")
 MY_AGENCY = os.getenv("MY_AGENCY")
+
+
+if __name__ == '__main__':
+    pass
