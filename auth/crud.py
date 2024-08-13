@@ -6,7 +6,9 @@ from settings import (
     CLIENT_SECRET,
     AGENCY_CLIENT_ID,
     AGENCY_CLIENT_NAME,
-    MY_AGENCY, ACCESS_TOKEN,
+    MY_AGENCY,
+    ACCESS_TOKEN,
+    MANAGER_ID,
 )
 
 
@@ -70,7 +72,7 @@ def get_access_token_for_user(
 
 async def delete_oauth2_token_for_user(
         *,
-        user_identifier: int = 21892461,
+        user_identifier: int = MANAGER_ID,
         identifier_type: str = "user_id"
 ):
     """
@@ -110,7 +112,7 @@ async def delete_oauth2_token_for_user(
 
 
 def delete_all_tokens_for_user_2(
-        user_id: int = 21892461
+        user_id: int = MANAGER_ID
 ):
     # URL для получения всех токенов (например, если API предоставляет такой метод)
     list_tokens_url = "https://ads.vk.com/api/v2/agency/tokens.json"
@@ -158,7 +160,7 @@ def delete_all_tokens_for_user_2(
 
 
 def delete_all_tokens_for_user_2(
-        user_id: int = 21892461
+        user_id: int = MANAGER_ID
 ):
     # URL для получения всех токенов
     list_tokens_url = "https://ads.vk.com/api/v2/agency/tokens.json"

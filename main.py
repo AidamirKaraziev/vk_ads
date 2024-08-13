@@ -2,15 +2,22 @@ from fastapi import FastAPI, HTTPException
 
 from ads.ad_plans import get_ad_plans, create_ad_plan
 from agents.clients import get_agency_clients
-from auth.crud import get_access_token_for_user, delete_oauth2_token_for_user, \
+from auth.crud import (
+    get_access_token_for_user,
+    delete_oauth2_token_for_user,
     delete_all_tokens_for_user_2
+)
 from auth.new_token import get_vk_ads_token
 from basic_functionality.crud import default_auth, delete_oauth2_token
 from campaign import create_ad_campaign, get_ad_accounts
 from manager.clients import get_manager_clients
 from manager.manager import get_campaigns
 from send import get_vk_url_info
-from settings import ACCESS_TOKEN, MANAGER_ACCESS_TOKEN
+from settings import (
+    ACCESS_TOKEN,
+    MANAGER_ACCESS_TOKEN,
+    MANAGER_ID
+)
 
 app = FastAPI()
 
@@ -40,7 +47,7 @@ async def get_access_token_api():
 async def delete_oauth2_token_for_user_api():
     return await delete_oauth2_token_for_user(
         identifier_type="user_id",
-        user_identifier=21892461
+        user_identifier=MANAGER_ID
     )
 
 
@@ -49,7 +56,7 @@ async def delete_oauth2_token_for_user_api():
     summary="Удалить токен для пользователя - 2"
 )
 async def delete_oauth2_token_for_user_api_2():
-    return await delete_all_tokens_for_user_2(21892461)
+    return await delete_all_tokens_for_user_2(MANAGER_ID)
 
 
 @app.get(
