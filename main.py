@@ -2,32 +2,54 @@ from fastapi import FastAPI, HTTPException
 
 from ads.ad_plans import get_ad_plans, create_ad_plan
 from agents.clients import get_agency_clients
+from auth.crud import get_access_token_for_user, delete_oauth2_token_for_user, \
+    delete_all_tokens_for_user_2
 from auth.new_token import get_vk_ads_token
+from basic_functionality.crud import default_auth, delete_oauth2_token
 from campaign import create_ad_campaign, get_ad_accounts
-from auth.get_access_token import (
-    delete_oauth2_token,
-    get_access_token,
-    default_auth
-)
 from manager.clients import get_manager_clients
 from manager.manager import get_campaigns
 from send import get_vk_url_info
-from settings import ACCESS_TOKEN
+from settings import ACCESS_TOKEN, MANAGER_ACCESS_TOKEN
 
 app = FastAPI()
 
 
 @app.get(
     path="/default-auth",
-    summary="Получение дефолтного токена для агентства"
+    summary="""
+Получение дефолтного токена для агентства-организации. Чисто просмотр.
+"""
 )
 async def default_auth_api():
     return await default_auth()
 
 
-@app.get("/get-access-token")
+@app.get(
+    path="/get-access-token",
+    summary="Получение токена для Агентства-пользователя"
+)
 async def get_access_token_api():
-    return get_access_token()
+    return get_access_token_for_user()
+
+
+@app.delete(
+    path="/token-for-user",
+    summary="Удалить токен для пользователя"
+)
+async def delete_oauth2_token_for_user_api():
+    return await delete_oauth2_token_for_user(
+        identifier_type="user_id",
+        user_identifier=21892461
+    )
+
+
+@app.delete(
+    path="/token-for-user-2",
+    summary="Удалить токен для пользователя - 2"
+)
+async def delete_oauth2_token_for_user_api_2():
+    return await delete_all_tokens_for_user_2(21892461)
 
 
 @app.get(
@@ -59,16 +81,17 @@ def create_campaigns_for_all_clients(
             "budget_limit": 10000
         }
     try:
-        access_token = ACCESS_TOKEN
+        access_token_manager = MANAGER_ACCESS_TOKEN
+        access_token_agent = ACCESS_TOKEN
         print(1)
-        ad_accounts = get_ad_accounts(access_token)
+        ad_accounts = get_ad_accounts(access_token_agent)
         print(2)
         results = []
         accounts = ad_accounts.get("items")
         for account in accounts:
             account_id = account.get("user").get("id")
             result = create_ad_campaign(
-                access_token=access_token,
+                access_token=access_token_manager,
                 client_id=account_id,
                 campaign_data=campaign_data
             )
@@ -77,14 +100,6 @@ def create_campaigns_for_all_clients(
         return results
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
-
-@app.get(
-    path="/get-clients-for-manager",
-    summary="Получение всех клиентов для менеджера"
-)
-async def get_manager_clients_api():
-    return await get_manager_clients(ACCESS_TOKEN)
 
 
 @app.get(
@@ -105,21 +120,13 @@ async def delete_all_tokens():
     return delete_oauth2_token()
 
 
-@app.get("/get-ad-accounts")
-async def get_ad_accounts_api():
-    return get_ad_accounts(ACCESS_TOKEN)
-
-
 @app.get("/campaigns/")
 def read_campaigns():
     """
     Получение списка рекламных кампаний для указанного клиента.
     """
-    try:
-        campaigns = get_campaigns()
-        return campaigns
-    except HTTPException as e:
-        raise e
+    campaigns = get_campaigns()
+    return campaigns
 
 
 @app.get("/create-ad-plan/")
@@ -130,6 +137,14 @@ async def create_ad_plan_api():
 @app.get("/ad-plans")
 async def get_ad_plans_api():
     return await get_ad_plans()
+
+
+@app.get(
+    path="/get-clients-for-manager",
+    summary="Получение всех клиентов для менеджера"
+)
+async def get_manager_clients_api():
+    return await get_manager_clients(ACCESS_TOKEN)
 
 
 if __name__ == '__main__':

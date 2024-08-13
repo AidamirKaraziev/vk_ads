@@ -1,13 +1,18 @@
-# import requests
-#
-# from settings import CLIENT_ID, CLIENT_SECRET
-#
-#
-# # CLIENT_ID = 'your_client_id_here'
-# # CLIENT_SECRET = 'your_client_secret_here'
-# REDIRECT_URI = 'localhost:9009'
-# # AUTHORIZATION_CODE = 'your_authorization_code_here'
-#
+import requests
+
+from settings import CLIENT_ID, CLIENT_SECRET
+
+
+# CLIENT_ID = 'your_client_id_here'
+# CLIENT_SECRET = 'your_client_secret_here'
+REDIRECT_URI = 'localhost:9009'
+# AUTHORIZATION_CODE = 'your_authorization_code_here'
+
+
+# Пример использования
+if __name__ == "__main__":
+    pass
+
 #
 # def get_access_token_manager():
 #     # URL для получения токена
@@ -33,8 +38,3 @@
 #         print("Ошибка:", response.status_code)
 #         print("Ответ:", response.text)
 #         return None
-#
-#
-# # Пример использования
-# if __name__ == "__main__":
-#     pass
