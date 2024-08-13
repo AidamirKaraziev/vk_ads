@@ -1,8 +1,1 @@
-{
-    'access_token': 'hejl7F4b2v9btiD2sytN0JomQxCTUlkFl0eL10MOtx0JPoKVDuoyxqY1QcTt39KCP7C8EiYCNTP5KJ9NpQZfEExdBBQ4f0kf3Z42tSYDmipWBn6ehVEP1jqd64YCAR4vNmDSwDrMce3Ck1rClLd3FbMhWoQcVBgHtCOZlS8Tirr4GYE6IVjalMJjHMDj5Ed7gwmpJ9XIW4TRFUWx',
-    'token_type': 'Bearer',
-    'expires_in': 86400,
-    'scope': [],
-    'refresh_token': 'lneqjMYZMkZMBP4y4vQqAHZMH9jDdxhKQswI7qojVdU5JgKFTT4OiX46GMPqUdrR1a0mb0CayjFuZQAklnIFQ9CSkfkcOqYUbGsfeVJhVErN4Cel1K4gj8rcfSvjBZDSTD8HwvDu8rVXc1jZAwWtBasz9YlUwAAWzRhuUzz6jD99BmODoCNPU7fxyQpvBS3kQlrBvlP2jFuKWsxe1HoEl8mWAjFTPycDOuxgnb1DM8FvZZO9JRFo4',
-    'tokens_left': 4
-}
+{'access_token': 'SQPS3fdyqhp5sHPSzU8SRnRKdSGpHQwtN9qFFYhRQNnrch1dKDdhVEbZFvwXw1PxYIyuhGn525Lo080YEEBlgREj82UtIN0GCCeE56ftDNYuTTuPeWQLugffWUzajFxipqMKjwoY13EHq7wSlCxazGVBK0uJXB9IF3sIxGB5tVlCiaMvQ3YWUDRh8yc3qGnwBpGH9B0rjtz', 'token_type': 'Bearer', 'expires_in': 86400, 'scope': ['agency_client_manager', 'read_payments'], 'refresh_token': 'tKZvdRlzwGvuuzPse9RsyqyXgSvTVYQ4Adnrjop9MAcg921wz7R4scUedccO39fjJYZvWo8Y4Xv4LEGWsXmRjSIptrO0AYkQHC4O2wzWG1rcnv3g4RudSpi9DuvqUAAHSqnAKZxArkItioAlifNI8wbrctzqtIbSF26juhDK72K8bxrqY5JWOusrfytsqDflflziRRbF9tvx6zSzBFxujA3p2amUIKl1K0Ni', 'tokens_left': 4}

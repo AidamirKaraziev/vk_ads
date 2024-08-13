@@ -1,20 +1,41 @@
 import requests
 
-from settings import CLIENT_ID, CLIENT_SECRET, AGENCY_CLIENT_NAME
+from settings import (
+    CLIENT_ID,
+    CLIENT_SECRET,
+    AGENCY_CLIENT_ID,
+    AGENCY_CLIENT_NAME,
+    MY_AGENCY,
+)
 
 
 def get_access_token():
     # URL для получения токена
     url = "https://ads.vk.com/api/v2/oauth2/token.json"
 
-    # Параметры запроса
     payload = {
         "grant_type": "client_credentials",
         "client_id": CLIENT_ID,
         "client_secret": CLIENT_SECRET,
-        # "agency_client_name": AGENCY_CLIENT_NAME,
-        # "scope": "ads"
+        # "scope": "ads,view_clients,create_ads"  # Запрашиваемые права
     }
+
+    # Параметры запроса
+    # payload = {
+    #     "grant_type": "client_credentials",
+    #     "client_id": CLIENT_ID,
+    #     "client_secret": CLIENT_SECRET,
+    #     # "agency_client_name": AGENCY_CLIENT_NAME,
+    #     "scope": ["ads", "read_ads", "create_ads", "read_payments"]
+    # }
+
+    # payload = {
+    #     "grant_type": "agency_client_credentials",
+    #     "client_id": CLIENT_ID,
+    #     "client_secret": CLIENT_SECRET,
+    #     "agency_client_id": AGENCY_CLIENT_ID,
+    #     "scope": ["ads", "read_ads", "create_ads", "read_payments"]
+    # }
 
     # Выполняем POST-запрос
     response = requests.post(url, data=payload)
@@ -22,8 +43,6 @@ def get_access_token():
     # Проверяем статус ответа
     if response.status_code == 200:
         token_data = response.json()
-        print("token_data", token_data)
-        print("Access Token:", token_data["access_token"])
         return token_data
     else:
         print("Ошибка:", response.status_code)
@@ -66,8 +85,8 @@ def delete_oauth2_token(
     response = requests.post(url, headers=headers, data=data)
 
     # Проверка ответа
-    if response.status_code == 200:
-        return response.json()  # Возвращаем данные в формате JSON
+    if response.status_code == 204 or response.status_code == 200:
+        return response
     else:
         print(f"Ошибка: {response.status_code}\nОтвет: {response.text}")
         return f"Ошибка: {response.status_code}\nОтвет: {response.text}"
