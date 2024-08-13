@@ -1,31 +1,45 @@
-# import requests
-# from fastapi import HTTPException
+import requests
+from fastapi import HTTPException
+
+from settings import ACCESS_TOKEN
+
+
+def get_agency_clients():
+    url = "https://ads.vk.com/api/v2/agency/clients.json"
+    headers = {
+        "Authorization": f"Bearer {ACCESS_TOKEN}",
+        "Content-Type": "application/json"
+    }
+
+    response = requests.get(url, headers=headers)
+
+    if response.status_code == 200:
+        return response.json()
+    else:
+        raise HTTPException(
+            status_code=response.status_code,
+            detail=response.text
+        )
+
 #
+# def get_agencies_client():
+#     url = "https://ads.vk.com/api/v2/agency/clients.json"
 #
-# def get_agency_client_info(access_token, client_id):
-#     url = f"https://ads.vk.com/api/v2/agency/clients/{client_id}.json"
+#     # Заголовки запроса
 #     headers = {
-#         "Authorization": f"Bearer {access_token}"
+#         "Authorization": f"Bearer {ACCESS_TOKEN}"
 #     }
 #
+#     # Выполнение GET-запроса
 #     response = requests.get(url, headers=headers)
 #
+#     # Проверка ответа
 #     if response.status_code == 200:
-#         client_info = response.json()
-#         return client_info
+#         # Если запрос успешен, выводим полученные данные
+#         print("Ответ от сервера:", response.json())
+#         return response.json()
 #     else:
-#         print(f"Error: {response.status_code}, {response.text}")
-#         raise HTTPException(
-#             status_code=response.status_code,
-#             detail=response.text
-#         )
-#
-# # Пример использования:
-# # access_token = "YOUR_ACCESS_TOKEN"
-# # client_id = "CLIENT_ID"
-#
-# client_info = get_agency_client_info(access_token, client_id)
-# #
-# # if client_info:
-# #     print("Client Info:", client_info)
-# #
+#         # Если произошла ошибка, выводим код ошибки и текст ответа
+#         print("Ошибка:", response.status_code)
+#         print("Ответ:", response.text)
+#         return response.text

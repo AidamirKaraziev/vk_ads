@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 
-from agents_1 import get_agencies_client, create_ad_plan
+from ads.ad_plans import get_ad_plans, create_ad_plan
+from agents.clients import get_agency_clients
 from auth.new_token import get_vk_ads_token
 from campaign import create_ad_campaign, get_ad_accounts
 from auth.get_access_token import (
@@ -91,7 +92,7 @@ async def get_manager_clients_api():
     summary="Получение всех рекламных кабинетов для клиентов"
 )
 async def get_agencies_client_api():
-    return get_agencies_client()
+    return get_agency_clients()
 
 
 @app.get("/get-vk-url-info")
@@ -124,6 +125,11 @@ def read_campaigns():
 @app.get("/create-ad-plan/")
 async def create_ad_plan_api():
     return create_ad_plan()
+
+
+@app.get("/ad-plans")
+async def get_ad_plans_api():
+    return await get_ad_plans()
 
 
 if __name__ == '__main__':
