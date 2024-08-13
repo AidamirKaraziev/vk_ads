@@ -74,7 +74,7 @@ def create_campaigns_for_all_clients(
             )
             results.append(result)
 
-            return account
+        return results
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

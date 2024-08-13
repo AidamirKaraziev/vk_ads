@@ -6,25 +6,6 @@ from settings import AGENCY_CLIENT_ID, CLIENT_SECRET, CLIENT_ID
 app = FastAPI()
 
 
-def get_access_token_new():
-    url = "https://ads.vk.com/api/v2/oauth2/token.json"
-    payload = {
-        "grant_type": "agency_client_credentials",
-        "client_id": CLIENT_ID,
-        "client_secret": CLIENT_SECRET,
-        "agency_client_id": AGENCY_CLIENT_ID,
-        "scope": "ads,view_campaigns,"
-    }
-    response = requests.post(url, data=payload)
-    if response.status_code == 200:
-        return response.json()
-    else:
-        raise HTTPException(
-            status_code=response.status_code,
-            detail=response.text
-        )
-
-
 def get_ad_accounts(access_token):
     url = "https://ads.vk.com/api/v2/agency/clients.json"
     headers = {"Authorization": f"Bearer {access_token}"}
@@ -73,10 +54,10 @@ def create_ad_campaign(
             "message": response.json()['error']["message"],
             "required_permission": response.json()['error']["required_permission"],
         }
-        raise HTTPException(
-            status_code=response.status_code,
-            detail=error_data
-        )
+        # raise HTTPException(
+        #     status_code=response.status_code,
+        #     detail=error_data
+        # )
 
 
 if __name__ == "__main__":
